@@ -16,12 +16,22 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Cracked so don&apos;t do shit"
+                android:id="@+id/textView6"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible" />
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Redeem ID:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/confirmationID"
@@ -33,7 +43,8 @@
                 android:hint="Type here your redeem ID"
                 android:inputType="textNoSuggestions|textVisiblePassword"
                 android:maxLength="20"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -62,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/default_gap_2x"
-                android:text="Redeem license" />
+                android:text="Redeem license"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView"
@@ -104,7 +116,8 @@
                 android:hint="Type here your username"
                 android:inputType="textNoSuggestions|textVisiblePassword"
                 android:maxLength="20"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/god_desc"
@@ -113,7 +126,8 @@
                 android:layout_marginTop="@dimen/default_gap"
                 android:text="Your privacy is key to us, that's why only your username's SHA256 hash is sent to the server."
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/god"

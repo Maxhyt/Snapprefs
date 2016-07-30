@@ -82,9 +82,6 @@ public class ActivateFragment extends Fragment {
         String text = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
         textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
         buynow.setVisibility(View.GONE);
-        applygod.setVisibility(View.VISIBLE);
-        name.setVisibility(View.VISIBLE);
-        god.setVisibility(View.VISIBLE);
         if (!confirmationID.isEmpty()) {
             //new Connection().execute(cID.getText().toString(), deviceID);
         }

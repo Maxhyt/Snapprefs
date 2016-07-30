@@ -214,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
                     .addTestDevice("4874476DA9EEB44071D24FAB8B3BA420")
                     .build();
             mAdView.loadAd(adRequest);
-            pugs.setVisibility(View.VISIBLE);
+            pugs.setVisibility(View.GONE);
             pugs.setText("\uD83D\uDC36" + " " + pugs.getText() + " " + "\uD83D\uDC36");
-            mAdView.setVisibility(View.INVISIBLE);
+            mAdView.setVisibility(View.GONE);
         }
 
         /**
