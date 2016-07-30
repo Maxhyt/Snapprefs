@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             mAdView.loadAd(adRequest);
             pugs.setVisibility(View.VISIBLE);
             pugs.setText("\uD83D\uDC36" + " " + pugs.getText() + " " + "\uD83D\uDC36");
-            mAdView.setVisibility(View.VISIBLE);
+            mAdView.setVisibility(View.INVISIBLE);
         }
 
         /**
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.fuckyou);
-        if (readLicense(deviceId, confirmationID) == 1 || readLicense(deviceId, confirmationID) == 2) {
+        if (readLicense(deviceId, confirmationID) == 1 || readLicense(deviceId, confirmationID) == 2 || readLicense(deviceId, confirmationID) == 0) {
             mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setEnabled(true);
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mDrawerLayout.getLayoutParams();
             lp.setMargins(0, 0, 0, 0);

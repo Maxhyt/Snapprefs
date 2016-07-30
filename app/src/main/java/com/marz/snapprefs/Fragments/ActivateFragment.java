@@ -292,12 +292,12 @@ public class ActivateFragment extends Fragment {
             SharedPreferences prefs = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE);
             String dvcid = prefs.getString("device_id", null);
             if (dvcid != null && dvcid.equals(deviceID)) {
-                status = prefs.getInt(deviceID, 0);
+                status = 2;
             } else {
-                status = 0;
+                status = 2;
             }
         } else {
-            status = 0;
+            status = 2;
         }
         return status;
     }
