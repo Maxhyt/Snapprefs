@@ -1,3 +1,3 @@
 # Snapprefs
-Snapprefs Cracked to Deluxe
+Snapprefs Cracked to Deluxe<br>
 Original Snapprefs by marzika
