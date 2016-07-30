@@ -70,7 +70,8 @@ public class BuyTabFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new ActivateFragment();
+                case 0 : return new BuyFragment();
+                case 1 : return new ActivateFragment();
             }
             return null;
         }

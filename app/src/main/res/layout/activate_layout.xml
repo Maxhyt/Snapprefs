@@ -22,7 +22,9 @@
                 android:text="Cracked so don&apos;t do shit"
                 android:id="@+id/textView6"
                 android:layout_gravity="center_horizontal"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:textColor="#f51212"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView3"
