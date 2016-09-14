@@ -39,14 +39,19 @@ public class Stories {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 ArrayList f = (ArrayList) XposedHelpers.getObjectField(param.thisObject, Obfuscator.stories.STORYLIST);
+                List<Class> types = new ArrayList<Class>();
                 Class<?> recentStory = XposedHelpers.findClass(Obfuscator.stories.RECENTSTORY_CLASS, lpparam.classLoader);
                 Class<?> allStory = XposedHelpers.findClass(Obfuscator.stories.ALLSTORY_CLASS, lpparam.classLoader);
                 Class<?> liveStory = XposedHelpers.findClass(Obfuscator.stories.LIVESTORY_CLASS, lpparam.classLoader);
                 Class<?> discoverStory = XposedHelpers.findClass(Obfuscator.stories.DISCOVERSTORY_CLASS, lpparam.classLoader);
+                types.add(recentStory);
+                types.add(allStory);
+                types.add(liveStory);
+                types.add(discoverStory);
 
                 for (int i = f.size() - 1; i >= 0; i--) {
                     Object o = f.get(i);
-                    if (o.getClass() == recentStory && HookMethods.mHidePeople) {
+                    if (o.getClass() == recentStory && Preferences.mHidePeople) {
                         String username = (String) XposedHelpers.callMethod(o, "b");
                         for (String person : peopleToHide) {
                             if (username.equals(person)) {
@@ -54,7 +59,7 @@ public class Stories {
                                 f.remove(i);
                             }
                         }
-                    } else if (o.getClass() == allStory && HookMethods.mHidePeople) {
+                    } else if (o.getClass() == allStory && Preferences.mHidePeople) {
                         Object friend = XposedHelpers.callMethod(o, "h");
                         String username = (String) XposedHelpers.callMethod(friend, "g");
                         for (String person : peopleToHide) {
@@ -63,11 +68,11 @@ public class Stories {
                                 f.remove(i);
                             }
                         }
-                    } else if (o.getClass() == liveStory && HookMethods.mHideLive) {
+                    } else if (o.getClass() == liveStory && Preferences.mHideLive) {
                         f.remove(i);
-                    } else if (o.getClass() == discoverStory) {
-                        //discover
-                    } else {
+                    } else if (o.getClass() == discoverStory && Preferences.mDiscoverUI) {
+                        f.remove(i);
+                    } else if (!types.contains(o.getClass())){
                         Logger.log("Found an unexpected entry at stories TYPE: " + o.getClass().getCanonicalName());
                     }
                 }

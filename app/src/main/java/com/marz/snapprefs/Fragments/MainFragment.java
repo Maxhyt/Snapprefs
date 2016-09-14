@@ -27,8 +27,20 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_layout,
                 container, false);
+        ImageButton donate = (ImageButton) view.findViewById(R.id.paypal);
         TextView build = (TextView) view.findViewById(R.id.build_version);
         TextView sc_version = (TextView) view.findViewById(R.id.sc_version);
+        donate.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SL45E99ZBUUCQ"));
+                    startActivity(myIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity().getApplicationContext(), "No application can handle this request." + " Please install a webbrowser", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
         build.setText(build.getText() + " " + BuildConfig.VERSION_NAME);
         sc_version.setText(sc_version.getText() + " " + Obfuscator.SUPPORTED_VERSION_CODENAME);
 

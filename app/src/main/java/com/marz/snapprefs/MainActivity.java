@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        ;
     };
     private SharedPreferences sharedPreferences;
     private ArrayList<MenuItem> items = new ArrayList<>();
@@ -133,61 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
         final SharedPreferences prefs = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE);
         acceptedToU = prefs.getBoolean("acceptedToU", false);
-        if(!acceptedToU){
-            AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                    .setTitle("ToU and Privacy Policy")
-                    .setView(R.layout.tos)
-                    .setMessage("You haven't accepted our Terms of Use and Privacy. Please read it carefully and accept it, otherwise you will not be able to use our product.")
-                    .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("acceptedToU", true);
-                            editor.apply();
-                            Toast.makeText(MainActivity.this, "You accepted the Terms of Use and Privacy Policy", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setCancelable(false);
-            final AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
 
-            Button privacypolicy = (Button) dialog.findViewById(R.id.privacypolicy);
-            Button tou = (Button) dialog.findViewById(R.id.tou);
-            CheckBox accepted = (CheckBox) dialog.findViewById(R.id.readandaccepted);
-
-            privacypolicy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://snapprefs.com/wp/privacy-policy/"));
-                        startActivity(myIntent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(MainActivity.this, "No application can handle this request." + " Please install a webbrowser", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
-                }
-            });
-            tou.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://snapprefs.com/wp/terms-of-use/"));
-                        startActivity(myIntent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(MainActivity.this, "No application can handle this request." + " Please install a webbrowser", Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
-                }
-            });
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-            accepted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(b);
-                }
-            });
-        }
         if (isGooglePlayInstalled()) {
             gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
 
@@ -214,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
                     .addTestDevice("4874476DA9EEB44071D24FAB8B3BA420")
                     .build();
             mAdView.loadAd(adRequest);
-            pugs.setVisibility(View.GONE);
+            pugs.setVisibility(View.VISIBLE);
             pugs.setText("\uD83D\uDC36" + " " + pugs.getText() + " " + "\uD83D\uDC36");
-            mAdView.setVisibility(View.GONE);
+            mAdView.setVisibility(View.VISIBLE);
         }
 
         /**
@@ -225,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.fuckyou);
-        if (readLicense(deviceId, confirmationID) == 1 || readLicense(deviceId, confirmationID) == 2 || readLicense(deviceId, confirmationID) == 0) {
+        if (readLicense(deviceId, confirmationID) == 1 || readLicense(deviceId, confirmationID) == 2) {
             mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setEnabled(true);
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mDrawerLayout.getLayoutParams();
             lp.setMargins(0, 0, 0, 0);
@@ -382,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             status = 0;
         }
-        return status;
+        return 2;
     }
 
     public String readStringPreference(String key) {

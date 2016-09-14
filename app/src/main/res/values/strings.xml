@@ -8,7 +8,7 @@
     <string name="pref_debug_title">INFORMATIONS</string>
 
     <string name="pref_thanks_title">Thanks to</string>
-    <string name="pref_thanks_summary">MAXHYT, stirante, Mr. Yawnie, P1ngu1n, manvir, elesbb, chiralcode, Yoganandh, bnalls33, cketti, ddmanfire, MikeOrtiz, sangmingming</string>
+    <string name="pref_thanks_summary">stirante, Mr. Yawnie, P1ngu1n, manvir, elesbb, chiralcode, Yoganandh, bnalls33, cketti, ddmanfire, MikeOrtiz, sangmingming</string>
     <string name="pref_donate_title">Donate</string>
     <string name="pref_donate_summary">Support me by buying some coffee using PayPal. Donations are highly appreciated.</string>
 
@@ -42,26 +42,17 @@
     <string name="selectvenue_text">Including Local Venues</string>
     <string name="selectvenue_text_summary">Includes Local Venues to the Select-All function</string>
 
-    <string name="rainbow_text">Rainbow text</string>
-    <string name="rainbow_text_summary">Makes each letter separately colored</string>
-    <string name="txtcolour_text">Text colour customizations</string>
-    <string name="txtstyle_text">Custom text styles</string>
-    <string name="txtstyle_text_summary">Enables bold, italic and both styles</string>
-    <string name="txtgravity_text">Text gravity</string>
-    <string name="txtgravity_text_summary">Enables changes to the alignment of the text</string>
-    <string name="bgcolour_text">Background colour customization</string>
-    <string name="bg_transparency_text">Background opacity customization</string>
-    <string name="size_text">Text-size customization</string>
-    <string name="transparency_text">Caption opacity customization</string>
     <string name="debug_text">Debug mode</string>
     <string name="pref_update_title">To get the latest updates</string>
     <string name="pref_update_summary">Add \'snapprefs\' on Snapchat</string>
     <string name="version_text">Version</string>
-    <string name="version_summary" translatable="false">Current version is: v1.6.5</string>
+    <string name="version_summary" translatable="false">Current version is: v2.0.0</string>
     <string name="general">General settings</string>
     <string name="saving">Saving settings</string>
     <string name="sharing">Sharing settings</string>
     <string name="spoofing">Spoofing settings</string>
+    <string name="pref_text_title">Caption customization</string>
+    <string name="pref_text_summary">Enable countless text and background customization of captions</string>
     <string name="pref_speed_title">Speed spoofing</string>
     <string name="pref_speed_value_title">Current set speed:</string>
     <string name="pref_speed_summary_on">Enabled speed spoofing</string>
@@ -129,6 +120,9 @@
 
     <!-- Saving settings -->
     <string name="pref_category_snapchats">Saving</string>
+    <string name="pref_save_button_position_title">Button position</string>
+    <string name="pref_save_button_position_summary_on">Save button position: LEFT</string>
+    <string name="pref_save_button_position_summary_off">Save button position: RIGHT</string>
     <string name="pref_save_snapchats_default" translatable="false">0</string>
     <string name="pref_save_snaps_images">Image snaps</string>
     <string name="pref_save_snaps_videos">Video snaps</string>
@@ -137,6 +131,8 @@
     <string name="pref_save_sent_snaps_title">Sent snaps</string>
     <string name="pref_save_sent_snaps_summary_on">Sent snaps will be saved</string>
     <string name="pref_save_sent_snaps_summary_off">Sent snaps won\'t be saved</string>
+    <string name="pref_save_snaps">Snap save mode</string>
+    <string name="pref_save_story">Story save mode</string>
 
     <string-array name="pref_forcenavbar_entries">
         <item>Force Navbar padding to hide</item>
@@ -151,17 +147,17 @@
     </string-array>
 
     <string-array name="pref_save_mode_entries">
-        <item>Save automatically</item>
-        <item>Sweep to save</item>
         <item>Save Button</item>
+        <item>Sweep to save</item>
         <item>Don\'t save</item>
+        <item>Auto Save</item>
     </string-array>
 
     <string-array name="pref_save_mode_values" translatable="false">
         <item>0</item>
         <item>1</item>
-        <item>3</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <!-- Viewing settings -->
@@ -267,7 +263,7 @@
 
     <!-- Dialogs -->
     <string name="module_not_enabled">Snapprefs is not enabled. Please enable it in Xposed Installer and reboot your device.</string>
-    <string name="size_error">"The video you shared is too large (%1$s), it probably won't send. Snapchat only supports files up to %2$s."</string>
+    <string name="size_error">"The video you shared is too large (%1$s), it probably won't send. Snapshat only supports files up to %2$s."</string>
     <string name="unable_open_xposed">Unable to open Xposed Installer, is it installed?</string>
 
     <string name="open_xposed_installer">Open Xposed Installer</string>
@@ -340,7 +336,7 @@
     <string name="title_activity_redeem">Redeem</string>
     <string name="title_activity_visual">Visual Filters</string>
     <string name="title_activity_visual_preview">Visual Filters Preview</string>
-    <string name="buy_text"><![CDATA[<b>Premium:</b><br><small>AdFree, Typing alert bypass, Chat presence bypass</small><br><br><b>Deluxe:</b><br><small>Every Premium feature, Stealth viewing (stories and snaps), GodMode (noone can save your Snaps -- not added yet)</small><br><br><b>NOTE:</b><br><small>You will receive an email with your Redeem ID from support@snapprefs.com (Check your Spam/Junk folder).<br>Your transaction ID is NOT your Redeem ID.<br><br>Payments can take up to 24 hours to activate. With payment issues send me an email to the above mentioned address.</small>]]></string>
+    <string name="buy_text"><![CDATA[<b>Premium:</b><br><small>AdFree, Typing alert bypass, Chat presence bypass</small><br><br><b>Deluxe:</b><br><small>Every Premium feature, Stealth viewing (stories and snaps), GodMode (noone can save your Snaps -- not added yet)</small><br><br><b>NOTE:<br><small>You will receive an email with your Redeem ID from support@snapprefs.com (Check your Spam/Junk folder).<br>Your transaction ID is NOT your Redeem ID.<br><br>Payments can take up to 24 hours to activate. With payment issues send me an email to the above mentioned address.</small>]]></string>
     <string name="buy_deluxe">Deluxe (9.99$)</string>
     <string name="buy_premium">Premium (2.99$)</string>
     <string name="hello_world">Hello world!</string>
@@ -364,8 +360,8 @@
     <string name="pref_paint_cb_title">Enable Paint Tools</string>
     <string name="pref_timercounter_cb_summary">When enabled your taken video\'s length will be shown on the recording button during recording.</string>
     <string name="pref_timercounter_cb_title">Enable Timer Counter</string>
-    <string name="pref_save_chat_image_title">Enable Chat image saving</string>
-    <string name="pref_save_chat_image_summary">When enabled long press on the image to save it</string>
+    <string name="pref_save_chat_image_title">Enable Chat media saving</string>
+    <string name="pref_save_chat_image_summary">When enabled long press on the image when opened to save it, for  videos use the button.</string>
     <string name="pref_save_chat_text_title">Enable Chat text auto-save</string>
     <string name="pref_save_chat_text_summary">When enabled sent/received Chats gets saved automatically</string>
     <string name="pref_save_integration_title">Enable Snapchat integration</string>

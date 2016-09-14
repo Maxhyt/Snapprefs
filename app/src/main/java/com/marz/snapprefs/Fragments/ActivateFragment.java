@@ -79,9 +79,63 @@ public class ActivateFragment extends Fragment {
         cID.setText(readStringPreference("confirmation_id"));
         final String deviceID = dID.getText().toString();
         final String confirmationID = cID.getText().toString();
-        String text = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
-        textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-        buynow.setVisibility(View.GONE);
+        if (readLicense(deviceID, confirmationID) == 0) {
+            String text = "Your license status is: <font color='blue'>Free</font>";
+            textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+            applygod.setVisibility(View.GONE);
+            god.setVisibility(View.GONE);
+            name.setVisibility(View.GONE);
+            buynow.setText("Click here to buy a license");
+            buynow.setOnClickListener(new Button.OnClickListener() {
+                public void onClick(View v) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Buy a license")
+                            .setMessage(Html.fromHtml(getString(R.string.buy_text)))
+                            .setPositiveButton(R.string.buy_premium, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2AS727Q2CL7AS"));//Premium
+                                    startActivity(myIntent);
+                                }
+                            })
+                            .setNeutralButton(R.string.buy_deluxe, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H523TP8ZJH9XY"));//Deluxe
+                                    startActivity(myIntent);
+                                }
+                            })
+                            .show();
+                }
+            });
+            buynow.setVisibility(View.VISIBLE);
+        } else if (readLicense(deviceID, confirmationID) == 1) {
+            String text = "Your license status is: <font color='green'>Premium</font>";
+            textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+            buynow.setText("Click here to upgrade your license");
+            buynow.setVisibility(View.VISIBLE);
+            applygod.setVisibility(View.INVISIBLE);
+            god.setVisibility(View.INVISIBLE);
+            buynow.setOnClickListener(new Button.OnClickListener() {
+                public void onClick(View v) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Upgrade your license")
+                            .setMessage(Html.fromHtml(getString(R.string.buy_text)))
+                            .setNeutralButton("Deluxe (9.99$)", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H523TP8ZJH9XY"));//Deluxe
+                                    startActivity(myIntent);
+                                }
+                            })
+                            .show();
+                }
+            });
+        } else if (readLicense(deviceID, confirmationID) == 2) {
+            String text = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
+            textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+            buynow.setVisibility(View.GONE);
+            applygod.setVisibility(View.VISIBLE);
+            name.setVisibility(View.VISIBLE);
+            god.setVisibility(View.VISIBLE);
+        }
         if (!confirmationID.isEmpty()) {
             //new Connection().execute(cID.getText().toString(), deviceID);
         }
@@ -167,8 +221,81 @@ public class ActivateFragment extends Fragment {
                         JSONObject obj = new JSONObject(text);
                         status = obj.getString("status");
                         error_msg = obj.getString("error_msg");
+                        if (status.equals("0") && !error_msg.isEmpty()) {
+                            String text2 = "Your license status is: <font color='blue'>Free</font>";
+                            txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
+                            errorTV.setText("Error: " + error_msg);
+                            buynow.setText("Click here to buy a license");
+                            applygod.setVisibility(View.GONE);
+                            god.setVisibility(View.GONE);
+                            name.setVisibility(View.GONE);
+                            buynow.setOnClickListener(new Button.OnClickListener() {
+                                public void onClick(View v) {
+                                    new AlertDialog.Builder(context)
+                                            .setTitle("Buy a license")
+                                            .setMessage(Html.fromHtml(getString(R.string.buy_text)))
+                                            .setPositiveButton(R.string.buy_premium, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2AS727Q2CL7AS"));//Premium
+                                                    startActivity(myIntent);
+                                                }
+                                            })
+                                            .setNeutralButton(R.string.buy_deluxe, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H523TP8ZJH9XY"));//Deluxe
+                                                    startActivity(myIntent);
+                                                }
+                                            })
+                                            .show();
+                                }
+                            });
+                            buynow.setVisibility(View.VISIBLE);
+                            //saveIntPreference("license_status", 0);
+                            saveLicense(deviceID, confirmationID, 0);
+                        }
+                        if (status.equals("1") && error_msg.isEmpty()) {
+                            String text2 = "Your license status is: <font color='green'>Premium</font>";
+                            txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
+                            errorTV.setText("");
+                            buynow.setText("Click here to upgrade your license");
+                            buynow.setOnClickListener(new Button.OnClickListener() {
+                                public void onClick(View v) {
+                                    new AlertDialog.Builder(context)
+                                            .setTitle("Upgrade your license")
+                                            .setMessage(Html.fromHtml(getString(R.string.buy_text)))
+                                            .setNeutralButton(R.string.buy_deluxe, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H523TP8ZJH9XY"));//Deluxe
+                                                    startActivity(myIntent);
+                                                }
+                                            })
+                                            .show();
+                                }
+                            });
+                            buynow.setVisibility(View.VISIBLE);
+                            saveLicense(deviceID, confirmationID, 1);
 
-                        if (status.equals("0") && error_msg.isEmpty()) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle("Apply License")
+                                    .setMessage("License verification is done, you have to do a soft reboot. If you want to type in your Redeem ID, click dismiss, otherwise click Soft Reboot. Without it, you will not be able to use your license and Snapprefs properly.")
+                                    .setPositiveButton("Soft reboot", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            try {
+                                                Process proc = Runtime.getRuntime()
+                                                        .exec(new String[]{"su", "-c", "busybox killall system_server"});
+                                                proc.waitFor();
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    })
+                                    .show();
+                        }
+                        if (status.equals("2") && error_msg.isEmpty()) {
                             String text2 = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
                             txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
                             buynow.setVisibility(View.GONE);
@@ -289,12 +416,12 @@ public class ActivateFragment extends Fragment {
             SharedPreferences prefs = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE);
             String dvcid = prefs.getString("device_id", null);
             if (dvcid != null && dvcid.equals(deviceID)) {
-                status = 2;
+                status = prefs.getInt(deviceID, 0);
             } else {
-                status = 2;
+                status = 0;
             }
         } else {
-            status = 2;
+            status = 0;
         }
         return status;
     }

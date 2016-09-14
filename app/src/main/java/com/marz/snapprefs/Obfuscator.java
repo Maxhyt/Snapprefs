@@ -41,6 +41,7 @@ public class Obfuscator {
         public static final String USER_CLASS = "VU"; //+
         //ReceivedSnap class
         public static final String RECEIVEDSNAP_CLASS = "Vt"; //+
+        public static final String RECEIVEDSNAP_BEING_SEEN = "d"; //+
         // ReceivedSnap.getCanonicalDisplayTime()
         public static final String RECEIVEDSNAP_DISPLAYTIME = "G";
         //StorySnap class
@@ -49,6 +50,7 @@ public class Obfuscator {
         public static final String SNAPVIEW_CLASS = "com.snapchat.android.ui.snapview.SnapView";
         //SnapView.show(ReceivedSnap, ChronologicalSnapProvider, Booleans(?))
         public static final String SNAPVIEW_SHOW = "b"; // prev. a
+        public static final String STORYVIEW_SHOW = "a"; // prev. a
         public static final String STORYVIEW_SHOW_FIRST = "aea";
         public static final String STORYVIEW_SHOW_SECOND = "Vn";
         public static final String STORYVIEW_SHOW_THIRD = "adW";
@@ -102,6 +104,9 @@ public class Obfuscator {
         public static final String SENT_METHOD = "a";
         //ImagesnapRenderer
         public static final String IMAGESNAPRENDERER_CLASS = "YI";
+        public static final String IMAGESNAPRENDERER_NEW_BITMAP = "a";
+        public static final String DECRYPTEDSNAPVIDEO_CLASS = "UZ";
+        public static final String CACHE_CLASS = "ahJ";
         //ImagesnapRenderer.start()
         public static final String IMAGESNAPRENDERER_START = "c";
         //ImageView instance in ImageSnapRenderer
@@ -129,8 +134,9 @@ public class Obfuscator {
         public static final String DOWNLOADREQUEST_CLASS = "com.snapchat.android.networkmanager.DownloadRequest";
         public static final String DYNAMICBYTEBUFFER_CLASS = "aku";
         public static final String NETWORKRESULT_CLASS = "Ae";
-        public static final String CHANNELDOWNLOADER_CLASS = "FC"; // TODO: find it
-        public static final String CHANNELDOWNLOADER_START = "b";
+        public static final String DSNAPDOWNLOAD_CLASS = "KP$a";
+        public static final String DSNAPDOWNLOAD_PARAM = "mp";
+        public static final String DSNAPINTRODOWNLOAD_CLASS = "LR$1";
         public static final String LIVESTORYPRELOAD_CLASS = "ZO";
         public static final String LIVESTORYPRELOAD_METHOD = "H_";
         public static final String STORYPRELOAD_CLASS = "aaF";
@@ -146,6 +152,7 @@ public class Obfuscator {
         public static final String WEATHER_CLASS = "Wa";
         public static final String WEATHER_FIRST = "avT";
         public static final String BATTERY_FILTER = "UQ";
+        public static final String BATTERY_FULL_ENUM = "FULL";
     }
     public class select {
         //SendToFragment class
@@ -196,6 +203,8 @@ public class Obfuscator {
         public static final String ASSETREADER_A_CLASS = "TB$a";//TODO: not right, they changed it to byte[]
         //read()
         public static final String ASSETREADER_READ = "a";
+        //SVG class
+        public static final String SVG_CLASS = "gZ";
     }
     public class filters {
         //FilterLoader class
@@ -221,7 +230,8 @@ public class Obfuscator {
         public static final String GREYSCALE_CLASS = "afJ";
         public static final String ADDFILTER_CLASS = "afK";
         public static final String ADDFILTER_PARAM = "afH";
-        public static final String ADDER_3_PARAM = "SK$3"; //TODO: find this
+        public static final String ADDER_3_PARAM = "afn"; //TODO: find this
+        public static final String ADDER_CLASS = "afi"; //TODO: find this
         public static final String ADDER_PARAM = "afr";
         public static final String SNAPCHAPTUREDEVENT_CLASS = "ajD";
     }
@@ -236,12 +246,16 @@ public class Obfuscator {
     }
     public class chat { //9.31.1.0
         public static final String CHAT_CLASS = "com.snapchat.android.model.chat.Chat";
+        public static final String CONVERSATION_CLASS = "com.snapchat.android.model.chat.ChatConversation";
+        public static final String CHATFEEDITEM_CLASS = "com.snapchat.android.model.chat.ChatFeedItem";
+        public static final String CONVERSATION_LOADOLDCHATS = "a";
         public static final String MESSAGEVIEWHOLDER_CLASS = "com.snapchat.android.fragments.chat.MessageViewHolder";
         public static final String MESSAGEVIEWHOLDER_METHOD = "b";
         public static final String MESSAGEVIEWHOLDER_VAR1 = "G";
         public static final String MESSAGEVIEWHOLDER_VAR2 = "d";
         public static final String MESSAGEVIEWHOLDER_ISSAVED = "ax_";
         public static final String MESSAGEVIEWHOLDER_SAVE = "x";
+        public static final String CHATLAYOUT_CLASS = "Nd";
     }
     public class notification {
         public static final String NOTIFICATION_CLASS_1 = "vz";

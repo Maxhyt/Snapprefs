@@ -24,7 +24,7 @@ import static de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField;
 public class HookSendList {
 
     static void initSelectAll(final LoadPackageParam lpparam) {
-        HookMethods.refreshPreferences();
+        Preferences.refreshPreferences();
         /**
          * This method gets called when the SendTo screen is shown. We hook it to display our checkbox.
          */
@@ -50,7 +50,7 @@ public class HookSendList {
                 selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean set) {
-                        Object hopefullySendToAdapter = getObjectField(param.thisObject, "e");
+                        Object hopefullySendToAdapter = getObjectField(param.thisObject, "f");
                         Logger.log("SELECTALL: We have the ArrayAdapter", true);
                         final String adaptersType = getParameterTypes(new Object[]{hopefullySendToAdapter})[0].getCanonicalName();
                         final boolean isSendToAdapter = adaptersType.equals(Obfuscator.select.SENDTOADAPTER_CLASS);
@@ -75,12 +75,14 @@ public class HookSendList {
                                             FriendSet.add(thingToAdd);
                                         else
                                             FriendSet.remove(thingToAdd);
-                                    } else if (types[i].getCanonicalName().equals(Obfuscator.select.POSTTOSTORY_CLASS) && HookMethods.selectStory == true) {
+                                    } else if (types[i].getCanonicalName().equals(Obfuscator.select.POSTTOSTORY_CLASS) && Preferences.selectStory == true) {
                                         if (set)
                                             StoryList.add(thingToAdd);
                                         else
                                             StoryList.remove(thingToAdd);
-                                    } else if (types[i].getCanonicalName().equals(Obfuscator.select.POSTTOVENUE_CLASS) && HookMethods.selectVenue == true) {
+                                    } else if (types[i].getCanonicalName().equals(Obfuscator.select.POSTTOVENUE_CLASS) && Preferences.selectVenue == true) {
+                                        String mStoryId = (String) getObjectField(thingToAdd, "mStoryId");
+                                        if(getObjectField(thingToAdd, "mStoryId").equals("edit") || mStoryId.contains("group_")) continue;
                                         if (set)
                                             StoryList.add(thingToAdd);
                                         else
@@ -134,7 +136,7 @@ public class HookSendList {
             cb.setScaleX(0.7F);
             cb.setScaleY(0.7F);
         } catch (Exception e) {
-            HookMethods.logging("Snapprefs: Error getting Checkbox");
+            Logger.log("Snapprefs: Error getting Checkbox");
         }
         return cb;
     }
