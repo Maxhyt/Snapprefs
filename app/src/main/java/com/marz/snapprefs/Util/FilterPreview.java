@@ -2,10 +2,8 @@ package com.marz.snapprefs.Util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,6 +14,7 @@ import android.widget.Toast;
 import com.marz.snapprefs.Fragments.DownloadedFiltersFragment;
 import com.marz.snapprefs.Fragments.FilterFragment;
 import com.marz.snapprefs.Fragments.VisualFragment;
+import com.marz.snapprefs.Preferences;
 import com.marz.snapprefs.R;
 
 import org.apache.http.HttpResponse;
@@ -55,7 +54,9 @@ public class FilterPreview extends Activity {
             imgId = getIntent().getStringExtra("imageId");
             visual = getIntent().getBooleanExtra("visual", false);
             if(!visual){
-                imgPath = imgPath + ".png";
+                if(!imgPath.toLowerCase().contains(".png")){
+                    imgPath = imgPath + ".png";
+                }
                 original.setVisibility(View.GONE);
             } else {
                 enabled = getIntent().getBooleanExtra("enabled", false);
@@ -91,11 +92,9 @@ public class FilterPreview extends Activity {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if(imgId.equals("1997")) imgId = "F"+imgId;
-                editor.putBoolean(imgId, checkBox.isChecked());
-                editor.commit();
+
+                Preferences.putBool(imgId, checkBox.isChecked());
                 VisualFragment.refreshPreferences();
                 VisualFragment.addFilters();
             }
@@ -153,7 +152,7 @@ public class FilterPreview extends Activity {
         protected void onPostExecute(Boolean result) {
             progress.dismiss();
             if (result)
-                Toast.makeText(FilterPreview.this, "Saved succesfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FilterPreview.this, "Saved successfully", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(FilterPreview.this, "Failed to download filter!", Toast.LENGTH_LONG).show();
             DownloadedFiltersFragment.buttonReload.performClick();

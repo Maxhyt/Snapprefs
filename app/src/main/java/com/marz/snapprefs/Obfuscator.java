@@ -41,6 +41,8 @@ public class Obfuscator {
         public static final String USER_CLASS = "VU"; //+
         //ReceivedSnap class
         public static final String RECEIVEDSNAP_CLASS = "Vt"; //+
+        public static final String OBJECT_MID = "mId";
+        public static final String OBJECT_CACHEKEYSUFFIX = "mCacheKeyInstanceSuffix";
         public static final String RECEIVEDSNAP_BEING_SEEN = "d"; //+
         // ReceivedSnap.getCanonicalDisplayTime()
         public static final String RECEIVEDSNAP_DISPLAYTIME = "G";
@@ -66,6 +68,7 @@ public class Obfuscator {
         public static final String SNAPVIEW_HIDE = "a";
         //SnapPreviewFragment class
         public static final String SNAPPREVIEWFRAGMENT_CLASS = "com.snapchat.android.preview.SnapPreviewFragment";
+        public static final String SNAPPREVIEWFRAGMENT_METHOD1 = "l";
         //ImageResourceView class
         public static final String IMAGERESOURCEVIEW_CLASS = "com.snapchat.android.ui.ImageResourceView";
         //imageResource instance variable name in ui.ImageResourceView
@@ -104,7 +107,11 @@ public class Obfuscator {
         public static final String SENT_METHOD = "a";
         //ImagesnapRenderer
         public static final String IMAGESNAPRENDERER_CLASS = "YI";
+        public static final String IMAGESNAPRENDERER_CLASS2 = IMAGESNAPRENDERER_CLASS + "$1";
         public static final String IMAGESNAPRENDERER_NEW_BITMAP = "a";
+        // Inside IMAGESNAPRENDERER, Object is of type extending mediabryo and contains mKey
+        public static final String OBJECT_KEYHOLDERCLASS = "b"; //.prev ahZ
+
         public static final String DECRYPTEDSNAPVIDEO_CLASS = "UZ";
         public static final String CACHE_CLASS = "ahJ";
         //ImagesnapRenderer.start()
@@ -127,6 +134,51 @@ public class Obfuscator {
         public static final String SWIPEUPARROWVIEW_SETONCLICK = "setTouchAreaOnClickListener";//?
         //stories_mystoryoverlaysave_icon
         public static final String STORIES_MYOVERLAYSAVE_ICON = "0x7f02030e";
+        // Get Username function of Friend Class
+        public static final String GET_FRIEND_USERNAME = "g";
+        public static final String CLASS_FRIEND_MINI_PROFILE_POPUP_FRAGMENT = "com.snapchat.android.fragments.FriendMiniProfilePopupFragment";
+        // com.snapchat.android.fragments.FriendMiniProfilePopupFragment Friend Field
+        public static final String FRIEND_MINI_PROFILE_POPUP_FRIEND_FIELD = "F";
+        // com.snapchat.android.fragments.FriendMiniProfilePopupFragement getCachedProfilePicutres method
+        public static final String FRIEND_MINI_PROFILE_POPUP_GET_CACHED_PROFILE_PICTURES = "y";
+        // com.snapchat.android.fragments.FriendMiniProfilePopupFragement FriendsProfileImagesCache field
+        public static final String FRIEND_MINI_PROFILE_POPUP_FRIENDS_PROFILE_IMAGES_CACHE = "i";
+        public static final String PROFILE_IMAGES_CACHE_GET_PROFILE_IMAGES = "a";
+        public static final String PROFILE_IMAGE_UTILS_PROFILE_IMAGE_SIZE_INNER_CLASS = "com.snapchat.android.util.profileimages.ProfileImageUtils$ProfileImageSize";
+        public static final String MINI_PROFILE_SNAPCODE = "q";
+
+        // SnapTimerView class
+        public static final String CLASS_SNAP_TIMER_VIEW = "com.snapchat.android.ui.SnapTimerView";
+        public static final String METHOD_SNAPTIMERVIEW_ONDRAW = "onDraw";
+
+        // StoryTimerView class
+        public static final String CLASS_STORY_TIMER_VIEW = "com.snapchat.android.ui.StoryTimerView";
+        public static final String METHOD_STORYTIMERVIEW_ONDRAW = "onDraw";
+
+        // TextureVideoView
+        public static final String CLASS_TEXTURE_VIDEO_VIEW = "com.snapchat.opera.shared.view.TextureVideoView";
+        public static final String METHOD_TVV_START = "start";
+        public static final String METHOD_TVV_SETLOOPING = "setLooping";
+
+        // SnapCountdownController class
+        public static final String CLASS_SNAP_COUNTDOWN_CONTROLLER = "com.snapchat.android.controller.countdown.SnapCountdownController";
+        public static final String METHOD_SCC_VAR1 = "a";
+
+        // SnapViewSessionStopReason class
+        public static final String CLASS_SNAP_VIEW_SESSION_STOP_REASON = "com.snapchat.android.ui.snapview.SnapViewSessionStopReason";
+
+        // SENT SNAP HANDLING \\
+
+        //Inside SnapPreviewFragment
+        public static final String OBJECT_SNAP_EDITOR_VIEW = "b";
+        //Inside SnapEditorView
+        public static final String OBJECT_MEDIABRYO = "p";
+        public static final String METHOD_GET_SENT_BITMAP = "a";
+        //Inside MediaBryo
+        public static final String OBJECT_MCLIENTID = "mClientId";
+        public static final String OBJECT_MVIDEOURI = "mVideoUri";
+
+
     }
     public class datasaving {
         public static final String DSNAPDOWNLOADER_CLASS = "KL";
@@ -191,10 +243,18 @@ public class Obfuscator {
         public static final String UPLOAD_ICON = "0x7f020022";
     }
     public class lens {
+        public static final String LENSCLASS = "com.snapchat.android.model.lenses.Lens";
+
+        public static final String LENSCLASS_SECOND_CONSTRUCTOR_ARG = "atz";
+        public static final String LENSCALLBACK_CLASS = "AN";
+        public static final String LENSCALLBACK_ONJSONRESULT_VAR2 = "Ae";
         //ScheduledLensesProvider class
         public static final String LENSESPROVIDER_CLASS = "wr";
         //getLenses()
         public static final String LENSESPROVIDER_GETLENSES = "f";
+
+        public static final String LENSPREPARESTATECHANGE = "com.snapchat.android.util.eventbus.LensPrepareStateChangedEvent";
+        public static final String STATECHANGEPREPARESTATUSENUM = "com.snapchat.android.util.eventbus.LensPrepareStateChangedEvent$PrepareStatus";
     }
     public class stickers {
         //FastZippedAssetReader class
@@ -234,6 +294,7 @@ public class Obfuscator {
         public static final String ADDER_CLASS = "afi"; //TODO: find this
         public static final String ADDER_PARAM = "afr";
         public static final String SNAPCHAPTUREDEVENT_CLASS = "ajD";
+        public static final String FILTERMETRICSPROVIDER_CLASS = "wg";
     }
     public class timer {
         public static final String TAKESNAPBUTTON_CLASS = "com.snapchat.android.ui.camera.TakeSnapButton";
@@ -254,6 +315,7 @@ public class Obfuscator {
         public static final String MESSAGEVIEWHOLDER_VAR1 = "G";
         public static final String MESSAGEVIEWHOLDER_VAR2 = "d";
         public static final String MESSAGEVIEWHOLDER_ISSAVED = "ax_";
+        public static final String MESSAGEVIEWHOLDER_ISFAILED = "N";
         public static final String MESSAGEVIEWHOLDER_SAVE = "x";
         public static final String CHATLAYOUT_CLASS = "Nd";
     }
@@ -295,5 +357,23 @@ public class Obfuscator {
     }
     public class paint{
         public static final String LEGACYCANVASVIEW_A = "BZ";
+    }
+    public class flash {
+        public static final String ISVISIBLE_FIELD = "mIsVisible";
+        public static final String SWIPELAYOUT_FIELD = "n";
+        public static final String GETRESID_METHOD = "e";
+        public static final String ISSCROLLED_METHOD = "c";
+        public static final String KEYEVENT_CLASS = "CX";
+        public static final String KEYCODE_FIELD = "a";
+        public static final String FLASH_METHOD = "b";
+        public static final String OVERLAY_FIELD = "y";
+    }
+    public class friendmojis {
+        public static final String ON_FRIENDS_UPDATE_METHOD = "w";
+        public static final String FRIEND_MANAGER_CLASS = "com.snapchat.android.model.FriendManager";
+        public static final String FRIENDS_MAP_FIELD = "mOutgoingFriendsListMap";
+        public static final String GET_VALUES_METHOD = "b";
+        public static final String IS_IT_ME_METHOD = "k";
+        public static final String GET_FRIENDMOJI_STRING_METHOD = "o";
     }
 }

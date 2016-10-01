@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.marz.snapprefs.Logger;
 import com.marz.snapprefs.R;
-import com.marz.snapprefs.Util.DownloadedFilterPreview;
 import com.marz.snapprefs.Util.DrawableManager;
 import com.marz.snapprefs.Util.FilterPreview;
 
@@ -227,7 +224,10 @@ public class FilterFragment extends Fragment {
                     f.author = obj.getString("author");
                     f.downloaded = new File(filtersDir, f.id + ".png").exists();
                     f.url = obj.getString("url");
-                    filters.add(f);
+                    if(f.name.toLowerCase().contains("filter") && !f.name.toLowerCase().contains("filterpack") && !f.url.toLowerCase().contains("/a/") && !f.url.toLowerCase().contains("reddituploads")){
+                        f.name = f.name.substring(f.name.indexOf("]")+1);
+                        filters.add(f);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

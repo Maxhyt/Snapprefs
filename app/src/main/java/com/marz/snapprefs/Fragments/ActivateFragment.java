@@ -21,7 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marz.snapprefs.MainActivity;
+import com.marz.snapprefs.Preferences;
 import com.marz.snapprefs.R;
+import com.marz.snapprefs.Util.CommonUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -37,11 +40,10 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 
 public class ActivateFragment extends Fragment {
@@ -56,37 +58,27 @@ public class ActivateFragment extends Fragment {
         context = container.getContext();
         final TelephonyManager tm = (TelephonyManager) getActivity().getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 
-        final String tmDevice, tmSerial, androidId;
-        tmDevice = "" + tm.getDeviceId();
-        tmSerial = "" + tm.getSimSerialNumber();
-        androidId = "" + android.provider.Settings.Secure.getString(getActivity().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
-        UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
-        String deviceId = deviceUuid.toString();
-
-        Button submitbtn = (Button) view.findViewById(R.id.submit);
+        Button submitBtn = (Button) view.findViewById(R.id.submit);
         final EditText cID = (EditText) view.findViewById(R.id.confirmationID);
         final TextView textView = (TextView) view.findViewById(R.id.textView);
-        final Button buynow = (Button) view.findViewById(R.id.button);
-        final Button applygod = (Button) view.findViewById(R.id.god);
+        final Button buyNowBtn = (Button) view.findViewById(R.id.button);
+        final Button applyForGodModeBtn = (Button) view.findViewById(R.id.god);
         final EditText name = (EditText) view.findViewById(R.id.username);
         final TextView god = (TextView) view.findViewById(R.id.god_desc);
         TextView dID = (TextView) view.findViewById(R.id.deviceID);
         god.setVisibility(View.GONE);
-        applygod.setVisibility(View.GONE);
+        applyForGodModeBtn.setVisibility(View.GONE);
         name.setVisibility(View.GONE);
-        dID.setText(deviceId);
+        dID.setText(MainActivity.getDeviceId());
         cID.setText(readStringPreference("confirmation_id"));
-        final String deviceID = dID.getText().toString();
-        final String confirmationID = cID.getText().toString();
-        if (readLicense(deviceID, confirmationID) == 0) {
+        if (Preferences.getLicenceUsingID(MainActivity.getDeviceId()) == 0) {
             String text = "Your license status is: <font color='blue'>Free</font>";
             textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-            applygod.setVisibility(View.GONE);
+            applyForGodModeBtn.setVisibility(View.GONE);
             god.setVisibility(View.GONE);
             name.setVisibility(View.GONE);
-            buynow.setText("Click here to buy a license");
-            buynow.setOnClickListener(new Button.OnClickListener() {
+            buyNowBtn.setText("Click here to buy a license");
+            buyNowBtn.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
                     new AlertDialog.Builder(context)
                             .setTitle("Buy a license")
@@ -106,15 +98,15 @@ public class ActivateFragment extends Fragment {
                             .show();
                 }
             });
-            buynow.setVisibility(View.VISIBLE);
-        } else if (readLicense(deviceID, confirmationID) == 1) {
+            buyNowBtn.setVisibility(View.VISIBLE);
+        } else if (Preferences.getLicenceUsingID(MainActivity.getDeviceId()) == 1) {
             String text = "Your license status is: <font color='green'>Premium</font>";
             textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-            buynow.setText("Click here to upgrade your license");
-            buynow.setVisibility(View.VISIBLE);
-            applygod.setVisibility(View.INVISIBLE);
+            buyNowBtn.setText("Click here to upgrade your license");
+            buyNowBtn.setVisibility(View.VISIBLE);
+            applyForGodModeBtn.setVisibility(View.INVISIBLE);
             god.setVisibility(View.INVISIBLE);
-            buynow.setOnClickListener(new Button.OnClickListener() {
+            buyNowBtn.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
                     new AlertDialog.Builder(context)
                             .setTitle("Upgrade your license")
@@ -128,43 +120,38 @@ public class ActivateFragment extends Fragment {
                             .show();
                 }
             });
-        } else if (readLicense(deviceID, confirmationID) == 2) {
+        } else if (Preferences.getLicenceUsingID(MainActivity.getDeviceId()) == 2) {
             String text = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
             textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-            buynow.setVisibility(View.GONE);
-            applygod.setVisibility(View.VISIBLE);
+            buyNowBtn.setVisibility(View.GONE);
+            applyForGodModeBtn.setVisibility(View.VISIBLE);
             name.setVisibility(View.VISIBLE);
             god.setVisibility(View.VISIBLE);
         }
-        if (!confirmationID.isEmpty()) {
+        /*if (!confirmationID.isEmpty()) {
             //new Connection().execute(cID.getText().toString(), deviceID);
-        }
+        }*/
 
-        submitbtn.setOnClickListener(new Button.OnClickListener() {
+        submitBtn.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                new Connection().execute(cID.getText().toString(), deviceID);
+                new Connection().execute(cID.getText().toString(), MainActivity.getDeviceId());
             }
         });
-        applygod.setOnClickListener(new View.OnClickListener() {
+        applyForGodModeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (name.getText().toString().trim().length() > 0){
-                    MessageDigest md = null;
+                if (name.getText().toString().trim().length() > 0) {
+                    String hashed;
                     try {
-                        md = MessageDigest.getInstance("SHA-256");
+                        hashed = CommonUtils.sha256(name.getText().toString());
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                         Toast.makeText(context, "NoSuchAlgorithm", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    try {
-                        md.update(name.getText().toString().getBytes("UTF-8")); // Change this to "UTF-16" if needed
                     } catch (UnsupportedEncodingException e) {
                         Toast.makeText(context, "Invalid username", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    byte[] digest = md.digest();
-                    String hashed = String.format("%064x", new java.math.BigInteger(1, digest));
                     new ConnectionGod().execute(cID.getText().toString(), hashed);
                 } else {
                     Toast.makeText(context, "Empty username", Toast.LENGTH_SHORT).show();
@@ -174,6 +161,7 @@ public class ActivateFragment extends Fragment {
 
         return view;
     }
+
     public void postData(final String confirmationID, final String deviceID) {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -221,7 +209,7 @@ public class ActivateFragment extends Fragment {
                         JSONObject obj = new JSONObject(text);
                         status = obj.getString("status");
                         error_msg = obj.getString("error_msg");
-                        if (status.equals("0") && !error_msg.isEmpty()) {
+                        if (status.equals("2") && !error_msg.isEmpty()) {
                             String text2 = "Your license status is: <font color='blue'>Free</font>";
                             txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
                             errorTV.setText("Error: " + error_msg);
@@ -295,7 +283,7 @@ public class ActivateFragment extends Fragment {
                                     })
                                     .show();
                         }
-                        if (status.equals("2") && error_msg.isEmpty()) {
+                        if (status.equals("0") && error_msg.isEmpty()) {
                             String text2 = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
                             txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
                             buynow.setVisibility(View.GONE);
@@ -342,6 +330,7 @@ public class ActivateFragment extends Fragment {
             saveLicense(deviceID, confirmationID, 0);
         }
     }
+
     public void postGod(final String confirmationID, final String username) {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -403,44 +392,25 @@ public class ActivateFragment extends Fragment {
 
     private void saveLicense(String deviceID, String confirmationID, int i) {
         if (confirmationID != null) {
-            SharedPreferences.Editor editor = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE).edit();
-            editor.putString("device_id", deviceID);
-            editor.putInt(deviceID, i);
-            editor.apply();
-        }
-    }
+            HashMap<String, Object> map = new HashMap<>();
+            map.put( "device_id", deviceID);
+            map.put(deviceID, i);
 
-    public int readLicense(String deviceID, String confirmationID) {
-        int status;
-        if (confirmationID != null) {
-            SharedPreferences prefs = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE);
-            String dvcid = prefs.getString("device_id", null);
-            if (dvcid != null && dvcid.equals(deviceID)) {
-                status = prefs.getInt(deviceID, 0);
-            } else {
-                status = 0;
-            }
-        } else {
-            status = 0;
+            Preferences.putContent(map);
         }
-        return status;
     }
 
     public void saveStringPreference(String key, String value) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE).edit();
-        editor.putString(key, value);
-        editor.apply();
+        Preferences.putString(key, value);
     }
 
     public void saveDeviceID(String value) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE).edit();
-        editor.putString("device_id", value);
-        editor.apply();
+        Preferences.putString("device_id", value);
     }
+
     public String readStringPreference(String key) {
-        SharedPreferences prefs = context.getSharedPreferences("com.marz.snapprefs_preferences", Context.MODE_WORLD_READABLE);
-        String returned = prefs.getString(key, null);
-        return returned;
+        SharedPreferences prefs = MainActivity.getPrefereces();
+        return prefs.getString(key, null);
     }
 
     private class Connection extends AsyncTask<String, Void, Void> {
@@ -452,6 +422,7 @@ public class ActivateFragment extends Fragment {
         }
 
     }
+
     private class ConnectionGod extends AsyncTask<String, Void, Void> {
 
         @Override

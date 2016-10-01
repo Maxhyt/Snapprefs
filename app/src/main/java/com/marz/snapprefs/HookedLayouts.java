@@ -9,22 +9,17 @@ import android.content.Intent;
 import android.content.res.XModuleResources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -52,6 +47,7 @@ import android.widget.Toast;
 import com.marz.snapprefs.Util.GestureEvent;
 import com.marz.snapprefs.Util.NotificationUtils;
 import com.marz.snapprefs.Util.TypefaceUtil;
+import com.marz.snapprefs.Preferences.Prefs;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -72,7 +68,7 @@ public class HookedLayouts {
     public static ImageButton upload = null;
     public static RelativeLayout outerOptionsLayout = null;
 
-    public static boolean setInt = false;
+    public static boolean setInt = true;
     public static ImageButton saveSnapButton;
     public static ImageButton saveStoryButton;
 
@@ -88,6 +84,7 @@ public class HookedLayouts {
                 TextView orig1 =
                         (TextView) ((TableRow) navigation.getChildAt(0)).getChildAt(1);
                 TableRow row = new TableRow(navigation.getContext());
+                row.setTag("Hello");
                 row.setLayoutParams(navigation.getChildAt(0).getLayoutParams());
                 ImageView iv = new ImageView(navigation.getContext());
                 iv.setImageDrawable(mResources.getDrawable(R.drawable.profile_snapprefs));
@@ -113,10 +110,23 @@ public class HookedLayouts {
                 row.addView(iv);
                 row.addView(textView);
                 navigation.addView(row);
-                if (setInt) {
-                    setInt = true;
-                } else {//cheap ass fix
-                    navigation.removeView(row);
+
+                boolean containsRow = false;
+                for(int index=0; index< navigation.getChildCount(); ++index) {
+                    View nextChild = navigation.getChildAt(index);
+
+                    if( nextChild.getTag() != null && nextChild.getTag() instanceof String )
+                    {
+                        if( nextChild.getTag().equals("Hello"))
+                        {
+                            Logger.log("IT EQUALS IT MOTHA: " + containsRow);
+
+                            if( containsRow)
+                                navigation.removeView(nextChild);
+                            else
+                                containsRow = true;
+                        }
+                    }
                 }
             }
         });
@@ -146,10 +156,12 @@ public class HookedLayouts {
                         (RelativeLayout) liparam.view.findViewById(liparam.res.getIdentifier("camera_preview_layout", "id", Common.PACKAGE_SNAP));
                 final RelativeLayout.LayoutParams layoutParams =
                         new RelativeLayout.LayoutParams(liparam.view.findViewById(liparam.res.getIdentifier("camera_take_snap_button", "id", Common.PACKAGE_SNAP)).getLayoutParams());
-                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                layoutParams.bottomMargin = HookMethods.px(75.0f);
+
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                layoutParams.rightMargin = px(50);
+                layoutParams.topMargin = -px(12);
                 upload = new ImageButton(HookMethods.SnapContext);
+                upload.setLayoutParams(layoutParams);
                 upload.setBackgroundColor(0);
                 Drawable uploadimg =
                         HookMethods.SnapContext.getResources().getDrawable(+(int) Long.parseLong(Obfuscator.sharing.UPLOAD_ICON.substring(2), 16));
@@ -167,13 +179,8 @@ public class HookedLayouts {
                         HookMethods.context.startActivity(launchIntent);
                     }
                 });
-                HookMethods.SnapContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        relativeLayout.addView(upload, layoutParams);
-                    }
-                });
 
+                relativeLayout.addView(upload);
             }
         });
     }
@@ -189,12 +196,12 @@ public class HookedLayouts {
                 .PACKAGE_SNAP);
 
         final BitmapDrawable drawable = (BitmapDrawable) resparam.res.getDrawable(intIconID);*/
-        final Bitmap saveImg = BitmapFactory.decodeResource(mResources, R.mipmap.save_button); //processButtonDrawable(drawable);
+        final Bitmap saveImg = BitmapFactory.decodeResource(mResources, R.drawable.save_button); //processButtonDrawable(drawable);
 
         if (saveImg == null)
             throw new NullPointerException("Button Image not found");
 
-        int horizontalPosition = Preferences.mButtonPosition ? Gravity.START : Gravity.END;
+        int horizontalPosition = Preferences.getBool(Prefs.BUTTON_POSITION) ? Gravity.START : Gravity.END;
         final FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -214,21 +221,20 @@ public class HookedLayouts {
                 ).getParent();
 
                 ViewGroup overlay_group = (ViewGroup) liparam.view.findViewById(
-                        liparam.res.getIdentifier("my_story_swipe_layout", "id", Common.PACKAGE_SNAP)
-                );
+                        liparam.res.getIdentifier("my_story_swipe_layout", "id", Common.PACKAGE_SNAP));
 
                 saveStoryButton = new ImageButton(localContext);
                 saveStoryButton.setLayoutParams(layoutParams);
                 saveStoryButton.setBackgroundColor(0);
                 saveStoryButton.setImageBitmap(saveImg);
                 saveStoryButton.setAlpha(0.8f);
-                saveStoryButton.setVisibility(Preferences.mModeStory == Preferences.SAVE_BUTTON ?
+                saveStoryButton.setVisibility(Preferences.getInt(Prefs.SAVEMODE_STORY) == Preferences.SAVE_BUTTON ?
                         View.VISIBLE : View.INVISIBLE);
 
                 frameLayout.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        return Preferences.mModeStory == Preferences.SAVE_S2S &&
+                        return Preferences.getInt(Prefs.SAVEMODE_STORY) == Preferences.SAVE_S2S &&
                                 gestureEvent.onTouch(v, event, Saving.SnapType.STORY);
 
                     }
@@ -261,13 +267,13 @@ public class HookedLayouts {
                 saveSnapButton.setBackgroundColor(0);
                 saveSnapButton.setAlpha(1f);
                 saveSnapButton.setImageBitmap(saveImg);
-                saveSnapButton.setVisibility(Preferences.mModeSave == Preferences.SAVE_BUTTON
+                saveSnapButton.setVisibility(Preferences.getInt(Prefs.SAVEMODE_SNAP) == Preferences.SAVE_BUTTON
                         ? View.VISIBLE : View.INVISIBLE);
 
                 frameLayout.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        return Preferences.mModeSave == Preferences.SAVE_S2S &&
+                        return Preferences.getInt(Prefs.SAVEMODE_SNAP) == Preferences.SAVE_S2S &&
                                 gestureEvent.onTouch(v, event, Saving.SnapType.SNAP);
 
                     }
@@ -286,7 +292,7 @@ public class HookedLayouts {
     }
 
     public static void refreshButtonPreferences() {
-        int horizontalPosition = Preferences.mButtonPosition ? Gravity.START : Gravity.END;
+        int horizontalPosition = Preferences.getBool(Prefs.BUTTON_POSITION) ? Gravity.START : Gravity.END;
         final FrameLayout.LayoutParams layoutParams =
                 new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -294,14 +300,14 @@ public class HookedLayouts {
 
         if (HookedLayouts.saveSnapButton != null) {
             HookedLayouts.saveSnapButton.setVisibility(
-                    Preferences.mModeSave == Preferences.SAVE_BUTTON ? View.VISIBLE : View.INVISIBLE);
+                    Preferences.getInt(Prefs.SAVEMODE_SNAP) == Preferences.SAVE_BUTTON ? View.VISIBLE : View.INVISIBLE);
 
             HookedLayouts.saveSnapButton.setLayoutParams(layoutParams);
         }
 
         if (HookedLayouts.saveStoryButton != null) {
             HookedLayouts.saveStoryButton.setVisibility(
-                    Preferences.mModeStory == Preferences.SAVE_BUTTON ? View.VISIBLE : View.INVISIBLE);
+                    Preferences.getInt(Prefs.SAVEMODE_STORY) == Preferences.SAVE_BUTTON ? View.VISIBLE : View.INVISIBLE);
 
             HookedLayouts.saveStoryButton.setLayoutParams(layoutParams);
         }
@@ -422,17 +428,17 @@ public class HookedLayouts {
                 HookMethods.SnapContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (Preferences.mTextTools) {
+                        if (Preferences.getBool(Prefs.TEXT_TOOLS)) {
                             relativeLayout.addView(textButton, layoutParams);
                             relativeLayout.addView(outerOptionsLayout, outerOptionsLayoutParams);
                         }
-                        if (Preferences.mSpeed) {
+                        if (Preferences.getBool(Prefs.SPEED)) {
                             relativeLayout.addView(speed, paramsSpeed);
                         }
-                        if (Preferences.mLocation) {
+                        if (Preferences.getBool(Prefs.LOCATION)) {
                             relativeLayout.addView(location, paramsLocation);
                         }
-                        if (Preferences.mWeather) {
+                        if (Preferences.getBool(Prefs.WEATHER)) {
                             relativeLayout.addView(weather, paramsWeather);
                         }
                     }
@@ -796,7 +802,7 @@ public class HookedLayouts {
                             return;
                         }
                         case 6: { //textFont
-                            File folder = new File(Environment.getExternalStorageDirectory() +
+                            File folder = new File(Preferences.getExternalPath() +
                                     "/Snapprefs/Fonts");
                             if (folder.exists()) {
                                 FilenameFilter filter = new FilenameFilter() {
@@ -839,12 +845,12 @@ public class HookedLayouts {
                                     LinearLayout listLayout =
                                             (LinearLayout) rootLayout.findViewById(R.id.fontLayout);
                                     for (final File font : fonts) {
-                                        String fontname =
+                                        String fontName =
                                                 font.getName().substring(0, font.getName().toLowerCase().lastIndexOf("."));
                                         TextView item = new TextView(context);
                                         item.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                         item.setPadding(0, 0, 0, 2);
-                                        item.setText(fontname);
+                                        item.setText(fontName);
                                         item.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22.0f);
                                         item.setGravity(Gravity.CENTER_HORIZONTAL);
                                         item.setTypeface(TypefaceUtil.get(font));
@@ -859,10 +865,10 @@ public class HookedLayouts {
                                     builder.setView(rootLayout);
                                     builder.show();
                                 } else {
-                                    NotificationUtils.showMessage("Fonts folder is empty", Color.RED, NotificationUtils.LENGHT_SHORT, HookMethods.classLoader);
+                                    NotificationUtils.showMessage("Fonts folder is empty", Color.RED, NotificationUtils.LENGTH_SHORT, HookMethods.classLoader);
                                 }
                             } else {
-                                NotificationUtils.showMessage("Fonts folder is not available", Color.RED, NotificationUtils.LENGHT_SHORT, HookMethods.classLoader);
+                                NotificationUtils.showMessage("Fonts folder is not available", Color.RED, NotificationUtils.LENGTH_SHORT, HookMethods.classLoader);
                             }
                             return;
                         }
@@ -894,9 +900,11 @@ public class HookedLayouts {
                                     new AlertDialog.Builder(HookMethods.SnapContext);
                             SeekBar seekBar = new SeekBar(HookMethods.SnapContext);
                             seekBar.setMax(255);
-                            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-                            if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
-                                seekBar.setProgress(HookMethods.editText.getBackground().getAlpha());
+                            int currentAPIVersion = Build.VERSION.SDK_INT;
+                            if (currentAPIVersion >= Build.VERSION_CODES.KITKAT) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    seekBar.setProgress(HookMethods.editText.getBackground().getAlpha());
+                                }
                             } else {
                                 seekBar.setProgress(255);
                             }

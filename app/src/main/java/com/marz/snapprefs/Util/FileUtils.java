@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 /**
@@ -30,6 +31,27 @@ public class FileUtils {
             Logger.log("FileUtils: File write failed: " + e.toString());
         }
     }
+
+    public static void saveStream(InputStream in, File outputPath) {
+        OutputStream out;
+        try {
+            out = new FileOutputStream(outputPath);
+
+            byte[] buffer = new byte[2048];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void writeToSDFolder(String data, String filename) {
         try {
@@ -65,7 +87,7 @@ public class FileUtils {
             Logger.log("INSTALL HANDLEEXTERNALSTORAGE TO FIX THE ISSUE -- FileUtils: File SDread failed " + e.toString(), true);
         }
         if (aBuffer.equalsIgnoreCase(""))
-            aBuffer="0";
+            aBuffer = "0";
         return aBuffer;
     }
 
@@ -152,8 +174,10 @@ public class FileUtils {
 
     public static void writeObjectFile(File f, Object obj) {
         try {
+            if (!f.exists()) f.createNewFile();
             ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(f));
             stream.writeObject(obj);
+            stream.flush();
             stream.close();
         } catch (IOException e) {
             e.printStackTrace();

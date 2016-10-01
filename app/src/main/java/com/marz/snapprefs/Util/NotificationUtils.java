@@ -7,6 +7,7 @@ import android.graphics.Color;
 import com.marz.snapprefs.HookMethods;
 import com.marz.snapprefs.Obfuscator;
 import com.marz.snapprefs.Preferences;
+import com.marz.snapprefs.Preferences.Prefs;
 import com.marz.snapprefs.R;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -16,8 +17,8 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
  * Created by MARZ on 2016. 02. 18..
  */
 public class NotificationUtils {
-    public static final int LENGHT_LONG = 3500; // 3.5 seconds
-    public static final int LENGHT_SHORT = 2000; // 2 seconds
+    public static final int LENGTH_LONG = 3500; // 3.5 seconds
+    public static final int LENGTH_SHORT = 2000; // 2 seconds
     public static int DEFAULT_ICON;
 
     public static void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
@@ -64,7 +65,7 @@ public class NotificationUtils {
     }
 
     public static void showStatefulMessage(String message, ToastType type, ClassLoader cl) {
-        if (!Preferences.mToastEnabled)
+        if (!Preferences.getBool(Prefs.TOAST_ENABLED))
             return;
 
         NotificationUtils.showMessage(

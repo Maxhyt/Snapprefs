@@ -14,6 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.marz.snapprefs.Util.NotificationUtils;
+import com.marz.snapprefs.Preferences.Prefs;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -53,7 +56,7 @@ public class Chat {
             protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                 Object chat = XposedHelpers.getObjectField(XposedHelpers.getObjectField(param.thisObject, Obfuscator.chat.MESSAGEVIEWHOLDER_VAR1), Obfuscator.chat.MESSAGEVIEWHOLDER_VAR2);
                 if (chat != null && chatClass.isInstance(chat)) {
-                    if (!(boolean) XposedHelpers.callMethod(chat, Obfuscator.chat.MESSAGEVIEWHOLDER_ISSAVED)) {
+                    if (!(boolean) XposedHelpers.callMethod(chat, Obfuscator.chat.MESSAGEVIEWHOLDER_ISSAVED) && !(boolean) XposedHelpers.callMethod(chat, Obfuscator.chat.MESSAGEVIEWHOLDER_ISFAILED)) {
                         try {
                             XposedHelpers.callMethod(param.thisObject, Obfuscator.chat.MESSAGEVIEWHOLDER_SAVE);
                         } catch (XposedHelpers.InvocationTargetError e) {
@@ -88,7 +91,7 @@ public class Chat {
 
                         ArrayList<Object> chatList = (ArrayList) param.getResult();
 
-                        if (!Preferences.mChatAutoSave)
+                        if (!Preferences.getBool(Prefs.CHAT_AUTO_SAVE))
                             return;
 
                         for (Object obj : chatList)
@@ -98,7 +101,7 @@ public class Chat {
     }
 
 
-    static void handleChatFeedItem(Object obj) {
+    private static void handleChatFeedItem(Object obj) {
         if (!obj.getClass().getName().equals("Wv"))
             return;
 
@@ -131,7 +134,7 @@ public class Chat {
         boolean mIsSavedByRecipient =
                 (boolean) XposedHelpers.getObjectField(obj, "mIsSavedByRecipient");
 
-        //Logger.log("IsSeen: " + isSeen +  "Are you the sender? " + areYouTheSender + "from: " + mSender + " to " + mRecipient + " isSavedBySender: " + mIsSavedBySender + " isSaveByReci: " + mIsSavedByRecipient );
+        //Logger.log("IsSeen: " + isSeen +  "Are you the sender? " + areYouTheSender + "from: " + mSender + " to " + mRecipient + " isSavedBySender: " + mIsSavedBySender + " isSaveByRecipient: " + mIsSavedByRecipient );
 
         if ((areYouTheSender && mIsSavedBySender) ||
                 (!areYouTheSender && mIsSavedByRecipient))
@@ -155,7 +158,7 @@ public class Chat {
     }
 
     static void performChatSave(ChatData chatData) throws IOException {
-        String savePath = Preferences.mSavePath + "/ChatLogs/" + chatData.getmOtherUser() + ".txt";
+        String savePath = Preferences.getSavePath() + "/ChatLogs/" + chatData.getmOtherUser() + ".txt";
 
         File outputFile = new File(savePath);
 
@@ -192,22 +195,17 @@ public class Chat {
 
         String readLine;
         try {
-
             do {
                 readLine = reader.readLine();
 
                 if (readLine == null)
                     return false;
 
-                //Logger.log("Reading line: " + readLine );
-
                 String splitHash[] = readLine.split("#");
 
                 if (splitHash.length > 0) {
                     String strHash = splitHash[0].trim();
                     String hashMod = Integer.toString(chatData.getHashMod(9999, true));
-
-                    Logger.log("Comparing hash: " + strHash + "/" + hashMod);
 
                     if (hashMod.equals(strHash))
                         return true;
@@ -262,9 +260,23 @@ public class Chat {
                         Logger.log("We have the file name " + filename, true);
 
                         try {
-                            Saving.saveSnap(Saving.SnapType.CHAT, Saving.MediaType.IMAGE, imageView.getContext(), chatImage, null, filename, sender);
+                            Saving.SaveResponse response = Saving.saveSnap(Saving.SnapType.CHAT, Saving.MediaType.IMAGE, imageView.getContext(), chatImage, null, filename, sender);
+                            if (response == Saving.SaveResponse.SUCCESS) {
+                                Logger.printFinalMessage("Saved Chat image");
+                                Saving.createStatefulToast("Saved Chat image", NotificationUtils.ToastType.GOOD);
+                            } else if (response == Saving.SaveResponse.EXISTING) {
+                                Logger.printFinalMessage("Chat image exists");
+                                Saving.createStatefulToast("Chat image exists", NotificationUtils.ToastType.WARNING);
+                            } else if (response == Saving.SaveResponse.FAILED) {
+                                Logger.printFinalMessage("Error saving Chat image");
+                                Saving.createStatefulToast("Error saving Chat image", NotificationUtils.ToastType.BAD);
+                            } else {
+                                Logger.printFinalMessage("Unhandled save response");
+                                Saving.createStatefulToast("Unhandled save response", NotificationUtils.ToastType.WARNING);
+                            }
                         } catch (Exception e) {
-
+                            Logger.log("Error Saving Chat Image: ");
+                            e.printStackTrace();
                         }
                         return true;
                     }
@@ -299,7 +311,7 @@ public class Chat {
                             Logger.log("We have the chat video url: " + mUri.toString(), true);
                             video = new FileInputStream(Uri.parse(mUri.toString()).getPath());
                         } catch (Exception e) {
-                            Logger.log("Error while saving the Chat image:", true);
+                            Logger.log("Error while saving the Chat video:", true);
                             e.printStackTrace();
                         }
                         Object chatMedia = chatMediaArr[0];
@@ -312,9 +324,23 @@ public class Chat {
                         Logger.log("We have the file name " + filename, true);
 
                         try {
-                            Saving.saveSnap(Saving.SnapType.CHAT, Saving.MediaType.VIDEO, (Context) param.args[0], null, video, filename, sender);
+                            Saving.SaveResponse response = Saving.saveSnap(Saving.SnapType.CHAT, Saving.MediaType.VIDEO, (Context) param.args[0], null, video, filename, sender);
+                            if (response == Saving.SaveResponse.SUCCESS) {
+                                Logger.printFinalMessage("Saved Chat video");
+                                Saving.createStatefulToast("Saved Chat video", NotificationUtils.ToastType.GOOD);
+                            }else if (response == Saving.SaveResponse.EXISTING) {
+                                    Logger.printFinalMessage("Chat video exists");
+                                    Saving.createStatefulToast("Chat video exists", NotificationUtils.ToastType.WARNING);
+                            } else if (response == Saving.SaveResponse.FAILED) {
+                                Logger.printFinalMessage("Error saving Chat video");
+                                Saving.createStatefulToast("Error saving Chat video", NotificationUtils.ToastType.BAD);
+                            } else {
+                                Logger.printFinalMessage("Unhandled save response");
+                                Saving.createStatefulToast("Unhandled save response", NotificationUtils.ToastType.WARNING);
+                            }
                         } catch (Exception e) {
-
+                            Logger.log("Error Saving Chat Video: ");
+                            e.printStackTrace();
                         }
                     }
                 });

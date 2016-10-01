@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.marz.snapprefs.Util.FileUtils;
+import com.marz.snapprefs.Preferences.Prefs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class Stories {
 
                 for (int i = f.size() - 1; i >= 0; i--) {
                     Object o = f.get(i);
-                    if (o.getClass() == recentStory && Preferences.mHidePeople) {
+                    if (o.getClass() == recentStory && Preferences.getBool(Prefs.HIDE_PEOPLE)) {
                         String username = (String) XposedHelpers.callMethod(o, "b");
                         for (String person : peopleToHide) {
                             if (username.equals(person)) {
@@ -59,7 +60,7 @@ public class Stories {
                                 f.remove(i);
                             }
                         }
-                    } else if (o.getClass() == allStory && Preferences.mHidePeople) {
+                    } else if (o.getClass() == allStory && Preferences.getBool(Prefs.HIDE_PEOPLE)) {
                         Object friend = XposedHelpers.callMethod(o, "h");
                         String username = (String) XposedHelpers.callMethod(friend, "g");
                         for (String person : peopleToHide) {
@@ -68,9 +69,9 @@ public class Stories {
                                 f.remove(i);
                             }
                         }
-                    } else if (o.getClass() == liveStory && Preferences.mHideLive) {
+                    } else if (o.getClass() == liveStory && Preferences.getBool(Prefs.HIDE_LIVE)) {
                         f.remove(i);
-                    } else if (o.getClass() == discoverStory && Preferences.mDiscoverUI) {
+                    } else if (o.getClass() == discoverStory && Preferences.getBool(Prefs.DISCOVER_UI)) {
                         f.remove(i);
                     } else if (!types.contains(o.getClass())){
                         Logger.log("Found an unexpected entry at stories TYPE: " + o.getClass().getCanonicalName());
@@ -113,12 +114,12 @@ public class Stories {
                     //layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     layoutParams2.topMargin = HookMethods.px(8.0f);
                     layoutParams2.rightMargin = HookMethods.px(115.0f);
-                    final ImageView spbtn = new ImageView(HookMethods.SnapContext);
-                    spbtn.setImageDrawable(mResources.getDrawable(R.drawable.story_filter));
-                    spbtn.setScaleX(0.75f);
-                    spbtn.setScaleY(0.75f);
+                    final ImageView snapPrefsBtn = new ImageView(HookMethods.SnapContext);
+                    snapPrefsBtn.setImageDrawable(mResources.getDrawable(R.drawable.story_filter));
+                    snapPrefsBtn.setScaleX(0.75f);
+                    snapPrefsBtn.setScaleY(0.75f);
                     Logger.log("Adding Snapprefs button to story section");
-                    spbtn.setOnClickListener(new View.OnClickListener() {
+                    snapPrefsBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             readFriendList(HookMethods.classLoader);
@@ -138,7 +139,7 @@ public class Stories {
                     HookMethods.SnapContext.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            relativeLayout.addView(spbtn, layoutParams2);
+                            relativeLayout.addView(snapPrefsBtn, layoutParams2);
                         }
                     });
                 }

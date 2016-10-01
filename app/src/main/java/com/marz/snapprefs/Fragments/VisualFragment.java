@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.marz.snapprefs.MainActivity;
 import com.marz.snapprefs.R;
 import com.marz.snapprefs.Util.DrawableManager;
 import com.marz.snapprefs.Util.FilterPreview;
@@ -46,8 +46,6 @@ public class VisualFragment extends Fragment {
     GridView gridView;
     public static FilterAdapter mAdapter;
     private static ArrayList<VisualFilter> filters = new ArrayList<>();
-
-    private static SharedPreferences prefs;
 
     private ProgressDialog mProgressDialog;
     private final String destination = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Snapprefs/VisualFilters";
@@ -193,7 +191,7 @@ public class VisualFragment extends Fragment {
         }
     }
     public static void refreshPreferences() {
-        prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences prefs = MainActivity.getPrefereces();
         mAmaro = prefs.getBoolean("AMARO", mAmaro);
         mF1997 = prefs.getBoolean("F1997", mF1997);
         mBrannan  = prefs.getBoolean("BRANNAN", mBrannan );
@@ -234,11 +232,11 @@ public class VisualFragment extends Fragment {
             try {
 
                 URL url = new URL(aurl[0]);
-                URLConnection conexion = url.openConnection();
-                conexion.connect();
+                URLConnection connection = url.openConnection();
+                connection.connect();
 
-                int lenghtOfFile = conexion.getContentLength();
-                Log.d("ANDRO_ASYNC", "Lenght of file: " + lenghtOfFile);
+                int lengthOfFile= connection.getContentLength();
+                Log.d("ANDRO_ASYNC", "Length of file: " + lengthOfFile);
 
                 InputStream input = new BufferedInputStream(url.openStream());
                 OutputStream output = new FileOutputStream(destination + "/visualfilters.zip");
@@ -249,7 +247,7 @@ public class VisualFragment extends Fragment {
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
-                    publishProgress(""+(int)((total*100)/lenghtOfFile));
+                    publishProgress(""+(int)((total*100)/lengthOfFile));
                     output.write(data, 0, count);
                 }
 
