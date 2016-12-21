@@ -6,7 +6,7 @@
     <color name="header_divider">#ff999999</color>
     <color name="green">#00a650</color>
     <color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
+    <color name="black">#000000</color>
     <color name="camera_activity_picture_text_message_background">#99000000</color>
     <color name="transparent">#000000</color>
     <color name="black_sixty_opacity">#99000000</color>
@@ -14,7 +14,7 @@
     <color name="primary">#4CAF50</color>
     <color name="primary_dark">#388E3C</color>
     <color name="primary_light">#C8E6C9</color>
-    <color name="accent">#9E9E9E</color>
+    <color name="accent">#9e9e9e</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>

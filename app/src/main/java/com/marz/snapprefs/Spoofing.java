@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
+import com.marz.snapprefs.Logger.LogType;
 import com.marz.snapprefs.Util.FileUtils;
 
 import java.util.Random;
@@ -23,7 +24,7 @@ public class Spoofing {
         findAndHookMethod(Obfuscator.spoofing.SPEEDOMETERVIEW_CLASS, lpparam.classLoader, Obfuscator.spoofing.SPEEDOMETERVIEW_SETSPEED, float.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (speed != 0) {
+                if (speed != 0 || speed != -1) {
                     param.args[0] = speed;
                 }
             }
@@ -31,11 +32,13 @@ public class Spoofing {
     }
 
     static void initLocation(final LoadPackageParam lpparam, final Context context) {
-        findAndHookMethod(Obfuscator.spoofing.LOCATION_CLASS, lpparam.classLoader, Obfuscator.spoofing.LOCATION_GETLOCATION, new XC_MethodHook() {
+        findAndHookMethod(Obfuscator.spoofing.LOCATION_CLASS, lpparam.classLoader, Obfuscator.spoofing.LOCATION_GETLOCATION, findClass(Obfuscator.spoofing.LOCATION_GETLOCATION_PARAM, lpparam.classLoader), new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 String rawLatitude = FileUtils.readFromSDFolder("latitude");
                 String rawLongitude = FileUtils.readFromSDFolder("longitude");
+                if(rawLatitude.equals("-91") && rawLongitude.equals("-181"))
+                    return;
                 float mLatitude = Float.valueOf(rawLatitude);
                 float mLongitude = Float.valueOf(rawLongitude);
                 Location fakedLocation = new Location(LocationManager.GPS_PROVIDER);
@@ -62,9 +65,11 @@ public class Spoofing {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 String temp = FileUtils.readFromFile(context, "weather");
+                if(temp.equals("-1"))
+                    return;
                 setObjectField(param.thisObject, "mTempC", String.valueOf(temp));
                 setObjectField(param.thisObject, "mTempF", String.valueOf(temp));
-                Logger.log("set the temperatures", true);
+                Logger.log("set the temperatures", LogType.DEBUG);
             }
         });
     }

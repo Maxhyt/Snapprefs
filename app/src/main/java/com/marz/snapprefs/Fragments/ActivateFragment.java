@@ -209,7 +209,7 @@ public class ActivateFragment extends Fragment {
                         JSONObject obj = new JSONObject(text);
                         status = obj.getString("status");
                         error_msg = obj.getString("error_msg");
-                        if (status.equals("2") && !error_msg.isEmpty()) {
+                        if (status.equals("0") && !error_msg.isEmpty()) {
                             String text2 = "Your license status is: <font color='blue'>Free</font>";
                             txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
                             errorTV.setText("Error: " + error_msg);
@@ -283,7 +283,7 @@ public class ActivateFragment extends Fragment {
                                     })
                                     .show();
                         }
-                        if (status.equals("0") && error_msg.isEmpty()) {
+                        if (status.equals("2") && error_msg.isEmpty()) {
                             String text2 = "Your license status is: <font color='#FFCC00'>Deluxe</font>";
                             txtvw.setText(Html.fromHtml(text2), TextView.BufferType.SPANNABLE);
                             buynow.setVisibility(View.GONE);
@@ -409,7 +409,7 @@ public class ActivateFragment extends Fragment {
     }
 
     public String readStringPreference(String key) {
-        SharedPreferences prefs = MainActivity.getPrefereces();
+        SharedPreferences prefs = MainActivity.getPreferences();
         return prefs.getString(key, null);
     }
 

@@ -8,7 +8,8 @@
     <string name="pref_debug_title">INFORMATION</string>
 
     <string name="pref_thanks_title">Thanks to</string>
-    <string name="pref_thanks_summary">stirante, Mr. Yawnie, P1ngu1n, manvir, elesbb, chiralcode, Yoganandh, bnalls33, cketti, ddmanfire, MikeOrtiz, sangmingming</string>
+    <string name="pref_thanks_summary">stirante, Mr. Yawnie, andrerm124, m1kep, P1ngu1n, manvir, elesbb, chiralcode, Yoganandh, bnalls33, cketti, ddmanfire, MikeOrtiz, sangmingming</string>
+
     <string name="pref_donate_title">Donate</string>
     <string name="pref_donate_summary">Support me by buying some coffee using PayPal. Donations are highly appreciated.</string>
 
@@ -18,12 +19,18 @@
     <string name="hidebf_text">Hide Best-Friends</string>
     <string name="hidebf_summary">Hides your Best-Friends from you</string>
 
+    <string name="auto_advance_title">Disable Auto-Advance</string>
+    <string name="auto_advance_summary">Disables the story Auto-Advance function</string>
+
     <string name="hidelive_text">Hide Live stories</string>
     <string name="hidelive_summary">Hides the Live stories section on the Stories screen</string>
+
     <string name="hidepeople_text">Hide People From Stories</string>
     <string name="hidepeople_summary">Enables the option to hide certain people\'s stories</string>
+
     <string name="showfavs_text">Show Favourites</string>
     <string name="showfavs_summary">Shows only the Favourites on the Stories screen</string>
+
     <string name="favsontop_text">Favourites on Top</string>
     <string name="favsontop_summary">Displays the Favourites as first</string>
 
@@ -35,41 +42,57 @@
 
     <string name="full_text">Unlimited Text</string>
     <string name="full_text_summary">Enables unlimited text for the captions</string>
+
     <string name="select_text">Select-All</string>
     <string name="select_text_summary">Enables the Select-All functionality for sending snaps</string>
+
     <string name="selectstory_text">Including My Story</string>
     <string name="selectstory_text_summary">Includes My Story to the Select-All function</string>
+
     <string name="selectvenue_text">Including Local Venues</string>
     <string name="selectvenue_text_summary">Includes Local Venues to the Select-All function</string>
 
     <string name="debug_text">Debug mode</string>
+
     <string name="pref_update_title">To get the latest updates</string>
     <string name="pref_update_summary">Add \'snapprefs\' on Snapchat</string>
+
     <string name="version_text">Version</string>
     <string name="version_summary" translatable="false">Current version is: v2.0.0</string>
+
     <string name="general">General settings</string>
     <string name="saving">Saving settings</string>
     <string name="sharing">Sharing settings</string>
     <string name="spoofing">Spoofing settings</string>
+
     <string name="pref_text_title">Caption Customization</string>
     <string name="pref_text_summary">Enable countless text and background customization of captions</string>
+
     <string name="pref_speed_title">Speed Spoofing</string>
     <string name="pref_speed_value_title">Current set speed:</string>
     <string name="pref_speed_summary_on">Speed spoofing is enabled</string>
     <string name="pref_speed_summary_off">Speed spoofing is disabled</string>
+
     <string name="pref_sticker">Custom sticker</string>
     <string name="pref_sticker_title">Enable Custom Stickers</string>
     <string name="pref_sticker_summary_on">Custom stickers will be loaded</string>
     <string name="pref_sticker_summary_off">Custom stickers will NOT be loaded</string>
+    <string name="pref_sticker_wipe_title">Wipe SVG folder</string>
+    <string name="pref_sticker_wipe_summary">Due to recent changes in Snapchat, unzipped SVGs are stored in /data/data/com.snapchat.android/files/twemoji_2_svg . In order to switch to new stickers, you have to wipe that folder. Click here to wipe that, it requires root access.</string>
     <string name="pref_sticker_readme_title">HOW TO USE</string>
     <string name="pref_sticker_readme_summary">To replace stickers, you have to first get SC\'s Emoji zips (can be found in their apk\'s assets folder), the PNG folder stores the previews of the stickers, the SVG folder contains the actual stickers. Each filename represents the unicode code of the Emoji, which they represent. To change the sticker, you have to replace the desired PNG and SVG in their zip, then place the zips in the /SDCARD/Snapprefs/Stickers/ folder (create them). Click here for a tutorial.</string>
     <string name="pref_sticker_readme_summary2">Example SVGs/PNGs can be found at https://github.com/Ranks/emojione</string>
+
     <string name="pref_filter_readme_title">HOW TO USE</string>
     <string name="pref_filter_readme_summary">Your custom filter has to be named as "banner_filter.png"/"fullscreen_filter.png" in the folder which is by default /sdcard/Snapprefs/Filters. If you changed the filter image, you have to restart Snapchat for the changes to take effect.\nResolution for Fullscreen Filters: 1080x1920\nResolution for Banner Filters: 821x323</string>
-    <string name="pref_discover_readme_title">HOW TO USE</string>
+    <string name="pref_discover_readme_title">Something To Note</string>
+
     <string name="pref_weather_summary_off">Weather will NOT be spoofed</string>
     <string name="pref_weather_summary_on">Weather will be spoofed</string>
     <string name="pref_weather_title">Weather Spoofing</string>
+    <string name="pref_weather_how_title">HOW TO USE</string>
+    <string name="pref_weather_how_summary">After typing in your desired value, you have to kill Snapchat, then restart to apply it.</string>
+
     <string name="pref_location_summary_off">Location will NOT be spoofed</string>
     <string name="pref_location_summary_on">Location will be spoofed</string>
     <string name="pref_location_readme_title">HOW TO USE</string>
@@ -82,28 +105,31 @@
     <string name="pref_location_longitude_title">Longitude</string>
     <string name="pref_location_location_picker_title">HOW TO USE</string>
     <string name="pref_location_location_picker_summary">Upon opening the map from SC, LONG click on the desired location, preferably to the middle of the city to set the spoofed location.</string>
+
     <string name="pref_speed_how_title">HOW TO USE</string>
     <string name="pref_speed_how_summary">After typing in your desired speed (m/s), click on the speed filter to apply it.</string>
-    <string name="pref_weather_how_title">HOW TO USE</string>
-    <string name="pref_weather_how_summary">After typing in your desired value, you have to kill Snapchat, then restart to apply it.</string>
+
     <string name="pref_storypreload_summary_off">Stories will be preloaded</string>
     <string name="pref_storypreload_summary_on">Stories will NOT be preloaded</string>
     <string name="pref_storypreload_title">Block Story Preload</string>
+
     <string name="pref_discover_summary_off">Discover will load and download</string>
     <string name="pref_discover_summary_on">Discover will NOT load NOR download</string>
     <string name="pref_discover_title">Block Discover Snaps</string>
     <string name="pref_discover_ui_summary_off">Discover will show in the UI</string>
     <string name="pref_discover_ui_summary_on">Discover will NOT show in the UI</string>
     <string name="pref_discover_ui_title">Block Discover From The UI</string>
-    <string name="datasaving">Datasaving settings</string>
     <string name="pref_discover_readme_summary">Previously downloaded/cached Discovers before enabling this feature will load. Also, the second option saves like 5kB more data, since it block brand logos from downloading.</string>
+
+    <string name="datasaving">Datasaving settings</string>
+
     <string name="pref_overlay_summary_off">Video overlays will NOT be saved</string>
     <string name="pref_overlay_summary_on">Video overlays will be saved</string>
     <string name="pref_overlay_title">Save video overlays</string>
 
-
     <string name="pref_instagram_summary">\@meszarosmarci</string>
     <string name="pref_instagram">Add me on Instagram</string>
+
     <string name="pref_snapchat">Add me on Snapchat</string>
     <string name="pref_snapchat_summary">snapprefs -- It is full</string>
 
@@ -120,6 +146,7 @@
 
     <!-- Saving settings -->
     <string name="pref_category_snapchats">Saving</string>
+
     <string name="pref_save_button_position_title">Button Position</string>
     <string name="pref_save_button_position_summary_on">Save button position: LEFT</string>
     <string name="pref_save_button_position_summary_off">Save button position: RIGHT</string>
@@ -151,6 +178,7 @@
         <item>Sweep to Save</item>
         <item>Don\'t Save</item>
         <item>Auto Save</item>
+        <item>Fling to Save</item>
     </string-array>
 
     <string-array name="pref_save_mode_values" translatable="false">
@@ -158,6 +186,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
     <!-- Viewing settings -->
@@ -172,12 +201,9 @@
     <string name="pref_timer_unlimited_title">Unlimited Viewing Time</string>
     <string name="pref_timer_unlimited_summary_off">You will have limited viewing time, select below</string>
     <string name="pref_timer_unlimited_summary_on">You can watch the snap as long as you want</string>
-    <string name="pref_video_looping_title">Looping Videos</string>
-    <string name="pref_video_looping_summary_off">Videos will play once</string>
-    <string name="pref_video_looping_summary_on">Videos will be looped for as long as you want</string>
     <string name="pref_timer_minimum_title">Minimum Timer Duration</string>
-    <string name="pref_forcenavbar_default" translatable="false">0</string>
     <string name="pref_timer_minimum_default_value" translatable="false">0</string>
+
     <string-array name="pref_timer_minimum_entries">
         <item>Disabled</item>
         <item>3 seconds</item>
@@ -186,7 +212,6 @@
         <item>10 seconds</item>
     </string-array>
 
-
     <string-array name="pref_timer_minimum_values" translatable="false">
         <item>0</item>
         <item>3</item>
@@ -194,6 +219,19 @@
         <item>7</item>
         <item>10</item>
     </string-array>
+
+    <string name="pref_max_recording_time_default">10</string>
+    <string name="pref_max_recording_time_summary">Tap here to enter a maximum recording time.</string>
+    <string name="pref_max_recording_time_title">Maximum Recording Time (seconds)</string>
+
+    <string name="pref_video_looping_title">Looping Videos</string>
+    <string name="pref_video_looping_summary_off">Videos will play once</string>
+    <string name="pref_video_looping_summary_on">Videos will be looped for as long as you want</string>
+    <string name="pref_forcenavbar_default" translatable="false">0</string>
+
+
+
+
     <string name="pref_custom_filter_cb_title">Enable Custom Filters</string>
     <string name="pref_custom_filter_cb_summary_on">Select a custom filter below</string>
     <string name="pref_custom_filter_cb_summary_off">Custom filters are disabled</string>
@@ -263,7 +301,8 @@
 
     <!-- Dialogs -->
     <string name="module_not_enabled">Snapprefs is not enabled. Please enable it in Xposed Installer and reboot your device.</string>
-    <string name="size_error">"The video you shared is too large (%1$s), it probably won't send. Snapshat only supports files up to %2$s."</string>
+    <string name="device_needs_restart_for_update">Snapprefs was updated. Please restart your device for the changes to take affect.</string>
+    <string name="size_error">"The video you shared is too large (%1$s), it probably won't send. Snapchat only supports files up to %2$s."</string>
     <string name="unable_open_xposed">Unable to open Xposed Installer, is it installed?</string>
 
     <string name="open_xposed_installer">Open Xposed Installer</string>
@@ -328,7 +367,8 @@
     <string name="pref_support_faq_summary" translatable="false">Opens the XDA post containing the Frequently Asked Questions with answers.</string>
     <string name="title_activity_maps">Tap and Hold on a location to spoof</string>
     <string name="str_btn_find">Search</string>
-    <string name="hnt_et_location">Type here a location to find</string>
+    <string name="str_btn_reset">Reset</string>
+    <string name="hnt_et_location">Type a location to find</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyDrN_SeVUZ1R7Qz-BggYYeyKuVdKU-NUmg
         <!--AIzaSyD-XNCHffArxbrgQ_-CS1nDXZRTfcEIlO4 DEBUG-->
@@ -336,7 +376,7 @@
     <string name="title_activity_redeem">Redeem</string>
     <string name="title_activity_visual">Visual Filters</string>
     <string name="title_activity_visual_preview">Visual Filters Preview</string>
-    <string name="buy_text"><![CDATA[<b>Premium:</b><br><small>AdFree, Typing alert bypass, Chat presence bypass</small><br><br><b>Deluxe:</b><br><small>Every Premium feature, Stealth viewing (stories and snaps), GodMode (noone can save your Snaps -- not added yet)</small><br><br><b>NOTE:<br><small>You will receive an email with your Redeem ID from support@snapprefs.com (Check your Spam/Junk folder).<br>Your transaction ID is NOT your Redeem ID.<br><br>Payments can take up to 24 hours to activate. With payment issues send me an email to the above mentioned address.</small>]]></string>
+    <string name="buy_text"><![CDATA[<b>Premium:</b><br><small>AdFree, Typing alert bypass, Chat presence bypass</small><br><br><b>Deluxe:</b><br><small>Every Premium feature, Stealth viewing (snaps), GodMode (noone can save your Snaps -- not added yet)</small><br><br><b>NOTE:<br><small>You will receive an email with your Redeem ID from support@snapprefs.com (Check your Spam/Junk folder).<br>Your transaction ID is NOT your Redeem ID.<br><br>Payments can take up to 24 hours to activate. With payment issues send me an email to the above mentioned address.</small>]]></string>
     <string name="buy_deluxe">Deluxe (9.99$)</string>
     <string name="buy_premium">Premium (2.99$)</string>
     <string name="hello_world">Hello world!</string>
@@ -353,7 +393,22 @@
     <string name="pref_viewed_summary_off">Stealth viewing will NOT be executed</string>
     <string name="pref_viewed_summary_on">Stealth viewing will be executed</string>
     <string name="pref_viewed_title">Stealth Viewing</string>
-    <string name="pref_viewed_readme_summary">After the snaps are loaded, enable Airplane mode, view the desired snap, then KILL SNAPCHAT from the Recent Apps page. You can disable Airplane mode now.</string>
+    <string name="pref_viewed_readme_summary">When using Stealth Viewing you may sometimes receive \"ghost snaps\" whereby old snaps display again, this is normal and is due to the way we handle the stealth viewing</string>
+    <string name="pref_na_readme_title">NOT AVAILABLE</string>
+    <string name="pref_na_readme_summary">You don\'t have access to Deluxe options as you are a Premium user. Open the Buy menu to purchase the Deluxe option.</string>
+
+    <string name="pref_stealth_chat_saving_summary_off">Stealth chat saving will NOT be executed</string>
+    <string name="pref_stealth_chat_saving_summary_on">Stealth chat saving will be executed</string>
+    <string name="pref_stealth_chat_saving_title">Stealth Chat Saving</string>
+
+    <string name="pref_stealth_saving_button_summary_off">Stealth saving button will NOT be used</string>
+    <string name="pref_stealth_saving_button_summary_on">Stealth saving button will be used</string>
+    <string name="pref_stealth_saving_button_title">Stealth Saving Button</string>
+
+    <string name="pref_stealth_notification_summary_off">Stealth notifications will NOT be used</string>
+    <string name="pref_stealth_notification_summary_on">Stealth notifications will be used</string>
+    <string name="pref_stealth_notification_title">Stealth Notifications</string>
+
     <string name="pref_paint_title">Paint Tools</string>
     <string name="pref_paint_cb_summary_off">Paint Tools are not enabled</string>
     <string name="pref_paint_cb_summary_on">Paint Tools are enabled</string>
@@ -364,8 +419,35 @@
     <string name="pref_save_chat_image_summary">When enabled open the chat image and tap and hold to save, for  videos use the button.</string>
     <string name="pref_save_chat_text_title">Enable Chat Text Auto-Save</string>
     <string name="pref_save_chat_text_summary">When enabled sent and received Chats will be saved automatically</string>
+    <string name="pref_save_chat_logging_title">Enable Chat Logging into Database</string>
+    <string name="pref_save_chat_logging_summary">When enabled chat messages are logged to a database and are viewable in Snapprefs</string>
     <string name="pref_save_integration_title">Enable Snapchat integration</string>
     <string name="pref_save_integration_summary">When enabled you can launch Snapprefs\'s settings by pulling down Snapchat\'s settings bar and clicking on Snapprefs</string>
     <string name="licenses">Snapprefs is licensed under GNU GPLv3. \n\nUsed libraries - License:\nInstagram Filters for Android - Apache License 2.0\nckChangeLog - Apache License 2.0\nColorPicker for Android - Apache License 2.0\nNoNonsense-FilePicker - MPL 2.0\nmp4parser - Free License\n\nModule was originally based on:\nKeepchat - GNU GPLv3\nSnapshare - GNU GPLv3\n\nSnapchat™ is the property of Snapchat Inc.\nSnapprefs is in no way affiliated with, authorized, maintained, sponsored or endorsed by the Snapchat Inc. or any of its affiliates or subsidiaries. This is an independent application.</string>
     <string name="hide_text">Show Icon In Launcher</string>
+    <string name="kill_sc">Kill Snapchat On Preference Change</string>
+    <string name="pref_groups_title">Enable Custom Groups</string>
+    <string name="hide_current_sc_lenses_switch_txt">Hide Lenses Currently Provided By SnapChat</string>
+    <string name="enable_sort_by_sel_time_switch_txt">Enable Sorting Lenses By Selection Time</string>
+    <string name="auto_enable_lenses_switch_txt">Enable Lenses When Collected</string>
+    <string name="fully_close_sc_lense_screen_txt">Snapchat needs to be fully closed to update the lens list</string>
+    <string name="lense_unassigned_txt">Unassigned</string>
+    <string name="sel_lense_count_heading_txt">Selected Lenses Count</string>
+    <string name="total_lenses_collected_heading_txt">Total Lenses Collected</string>
+    <string name="select_lenses_btn_txt">Select Lenses</string>
+    <string name="select_lense_button_heading_txt">Select lenses to load</string>
+    <string name="lense_master_switch_loading_system_txt">Lens Loading System</string>
+    <string name="lense_master_switch_lense_system_txt">Lens Collection System</string>
+    <string name="lense_master_switches_heading_txt">Master Switches</string>
+    <string name="activate_layout_license_code_txt" translatable="false">License Code:</string>
+    <string name="activate_layout_checklayout_license_code_blank_txt" translatable="false">Type/Paste your License Code here</string>
+    <string name="activate_layout_device_id_txt_label" translatable="false">Device ID:</string>
+    <string name="activate_layout_activate_licenses_button_txt" translatable="false">Activate license</string>
+    <string name="activate_layout_checklayout_license_status_label_txt" translatable="false">Your license status is:</string>
+    <string name="activate_layout_checklayout_purchase_license_btn_txt" translatable="false">Click here to buy a license</string>
+    <string name="activate_layout_checklayout_username_label_txt" translatable="false">Type your username here</string>
+    <string name="activate_layout_checklayout_god_privacy_statement_txt" translatable="false">Your privacy is key to us, that\'s why only your username\'s SHA256 hash is sent to the server.</string>
+    <string name="activate_layout_checklayout_god_apply_btn_txt" translatable="false">Click here to apply for GOD mode</string>
+    <string name="checklayout_redeem_id_label" translatable="false">Redeem ID:</string>
+    <string name="checklayout_redeem_license_btn_txt" translatable="false">Redeem license</string>
 </resources>
