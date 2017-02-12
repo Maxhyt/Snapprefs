@@ -332,17 +332,7 @@ public class HookMethods
                             SnapContext = (Activity) param.thisObject;
                             Logger.log("Loading map from xposed");
                             Preferences.loadMapFromXposed();
-                            if (!Preferences.getBool(Prefs.ACCEPTED_TOU)) {//new ContextThemeWrapper(context.createPackageContext("com.marz.snapprefs", Context.CONTEXT_IGNORE_SECURITY), R.style.AppCompatDialog)
-                                AlertDialog.Builder builder = new AlertDialog.Builder(SnapContext)
-                                        .setTitle("ToU and Privacy Policy")
-                                        .setMessage("You haven't accepted our Terms of Use and Privacy. Please read it carefully and accept it, otherwise you will not be able to use our product. Open the Snapprefs app to do that.")
-                                        .setIcon(android.R.drawable.ic_dialog_alert);
-                                builder.setCancelable(false);
-                                final AlertDialog dialog = builder.create();
-                                dialog.setCanceledOnTouchOutside(false);
-                                dialog.show();
-                                return;
-                            }
+
                             boolean isNull = SnapContext == null;
                             Logger.log("SNAPCONTEXT, NULL? - " + isNull, true);
                             // Fallback method to force the MediaRecorder implementation in Snapchat
@@ -667,7 +657,13 @@ public class HookMethods
                             boolean c = (boolean) XposedHelpers.callMethod(swipeLayout, Obfuscator.flash.ISSCROLLED_METHOD);
                             if (isVisible && resId != 0 && resId != 2 && !c) {
                                 int keycode = XposedHelpers.getIntField(param.args[0], Obfuscator.flash.KEYCODE_FIELD);
-                                if (keycode == KeyEvent.KEYCODE_VOLUME_UP) {
+                                int flashkey;
+                                if(Preferences.getBool(Prefs.FLASH_KEY) == true){
+                                    flashkey = KeyEvent.KEYCODE_VOLUME_UP;
+                                } else {
+                                    flashkey = KeyEvent.KEYCODE_VOLUME_DOWN;
+                                }
+                                if (keycode == flashkey) {
                                     if (System.currentTimeMillis() - lastChange > 500) {
                                         lastChange = System.currentTimeMillis();
                                         frontFlash = !frontFlash;
